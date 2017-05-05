@@ -51,7 +51,7 @@ with tf.Session() as sess:
     # softmax=tf.nn.softmax(logits)
     # init = tf.constant_initializer(value=labels,dtype=tf.float32)
     # labels2=tf.get_variable(name='labels',initializer=init,shape=[489,368])
-    labels2=tf.expand_dims(labels, 0) #因为缺少channel维度
+    labels2=tf.expand_dims(labels, 0) #batch
     cross_entropy = tf.nn.sparse_softmax_cross_entropy_with_logits(labels=labels2,logits=logits,)
     cross_entropy=tf.reduce_mean(cross_entropy)
     optimizer = tf.train.GradientDescentOptimizer(0.000001)
@@ -64,9 +64,9 @@ with tf.Session() as sess:
     # root_path_x = '/home/kaido/Download/VOCdevkit/VOC2012/JPEGImages/'
     # root_path_l = '/home/kaido/Download/VOCdevkit/VOC2012/SegTXT/'
     # train_txt = '/home/kaido/Download/VOCdevkit/VOC2012/ImageSets/Segmentation/train.txt'
-    root_path_x = '/home/kaido/workspace/4_18/trainImage/'
-    root_path_l = '/home/kaido/workspace/4_18/SegTXT/'
-    train_txt = '/home/kaido/workspace/4_18/train.txt'
+    root_path_x = '/home/kaido/workspace/4_18/trainImage/' #.bmp格式的图像
+    root_path_l = '/home/kaido/workspace/4_18/SegTXT/' #每张图像对应的label，像素存在txt中1.bmp---->1.txt（SegTXT文件夹中）
+    train_txt = '/home/kaido/workspace/4_18/train.txt' #提供训练图像的名字
 
     train_file = open(train_txt)
     pic_name = train_file.readline()
@@ -103,24 +103,6 @@ with tf.Session() as sess:
     # up,loss=sess.run([vgg_fcn.pred_up,cross_entropy], feed_dict=feed_dict)
     # save_path=saver.save(sess,'/tmp/model.ckpt')
 
-    # down_color = utils.color_image(down[0])
-    ###########################################################
-
-
-
-    ###########################################################恢复/加载模型
-    # saver.restore(sess,'/tmp/model.ckpt')
-    # print('model restored')
-    # up, loss = sess.run([vgg_fcn.pred_up, cross_entropy], feed_dict=feed_dict)
-    # print(loss)
-    ###########################################################
-
-
-
-    # up_color = utils.color_image(up[0])
-    # #
-    # # scp.misc.imsave('fcn8_downsampled.png', down_color)
-    # scp.misc.imsave('fcn8_test_from_model.png', up_color)
 print('end')
 
 # root_path_x='/home/white/下载/VOC2012/JPEGImages/'
